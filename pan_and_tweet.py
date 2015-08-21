@@ -14,6 +14,8 @@ if __name__ == "__main__":
    
     labCam.cam_center()
     time.sleep(20)
+    labCam.cam_step_down(30)
+    time.sleep(5)
     labCam.cam_step_left(360)
     print("Camera panned to leftmost stop.")
         
@@ -40,4 +42,9 @@ if __name__ == "__main__":
     # Tweet it:
     twitter = Twitter(
         auth = OAuth(sec["twitter_access_key"], sec["twitter_access_secret"], sec["twitter_consumer_key"], sec["twitter_consumer_secret"]))
-    results = twitter.statuses.update(status = url)
+    results = twitter.statuses.update(status = 'Warehouse: '+url)
+
+    # Slack it
+    slack_payload = '{ "text": "Warehouse: '+url+'" }'
+    slack_req = requests.post('https://hooks.slack.com/services/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', data=slack_payload)
+
